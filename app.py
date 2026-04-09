@@ -43,18 +43,15 @@ except Exception as e:
         "openenv is required for the web interface. Install dependencies with 'uv sync'"
     ) from e
 
-try:
-    from ..models import SreIncidentAction, SreIncidentObservation
-except ImportError:
-    from models import SreIncidentAction, SreIncidentObservation
+from models import SreIncidentAction, SreIncidentObservation
 
 try:
-    from .sre_incident_env_environment import SreIncidentEnvironment
+    from server.sre_incident_env_environment import SreIncidentEnvironment
 except ImportError:
     from sre_incident_env_environment import SreIncidentEnvironment
 
 try:
-    from .tasks import get_all_tasks, get_task
+    from server.tasks import get_all_tasks, get_task
 except ImportError:
     from tasks import get_all_tasks, get_task
 
@@ -129,8 +126,8 @@ async def grade_episode(request: GraderRequest):
         raise HTTPException(status_code=400, detail=str(exc))
 
     try:
-        from .grading import grade_episode as grade_actions
-        from .scenario_generator import ScenarioGenerator
+        from server.grading import grade_episode as grade_actions
+        from server.scenario_generator import ScenarioGenerator
     except ImportError:
         from grading import grade_episode as grade_actions
         from scenario_generator import ScenarioGenerator
@@ -138,10 +135,7 @@ async def grade_episode(request: GraderRequest):
     generator = ScenarioGenerator()
     incident = generator.generate(request.task_id)
 
-    try:
-        from ..models import ActionType, SreIncidentAction as Action
-    except ImportError:
-        from models import ActionType, SreIncidentAction as Action
+    from models import ActionType, SreIncidentAction as Action
 
     optimal_sequences = {
         "easy": [

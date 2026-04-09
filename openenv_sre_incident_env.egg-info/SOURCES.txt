@@ -1,6 +1,9 @@
 README.md
+client.py
+inference.py
+models.py
 pyproject.toml
-./__init__.py
+./app.py
 ./client.py
 ./inference.py
 ./models.py
@@ -11,7 +14,6 @@ openenv_sre_incident_env.egg-info/entry_points.txt
 openenv_sre_incident_env.egg-info/requires.txt
 openenv_sre_incident_env.egg-info/top_level.txt
 server/__init__.py
-server/app.py
 server/grading.py
 server/scenario_generator.py
 server/sre_incident_env_environment.py
