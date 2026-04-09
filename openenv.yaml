@@ -1,0 +1,62 @@
+# OpenEnv specification for SRE Incident Response Environment
+spec_version: 1
+name: sre_incident_env
+type: space
+runtime: fastapi
+app: server.app:app
+port: 7860
+
+environment:
+  name: "SRE Incident Response Environment"
+  description: >
+    An OpenEnv-compliant environment for training RL agents on SRE incident response.
+    Agents must triage production incidents, identify root causes, apply correct
+    remediations, coordinate with teams, and resolve incidents across three difficulty levels.
+
+tasks:
+  - id: easy
+    name: "API/Service Error Resolution"
+    difficulty: easy
+    metric: score
+    threshold: 0.60
+    max_steps: 15
+    description: >
+      Resolve API or service-level errors (HTTP 500/502/503). Typical issues include
+      deployment failures, configuration errors, or resource exhaustion that can be
+      resolved with rollback or scaling. 5 varied incident templates.
+
+  - id: medium
+    name: "Database & Infrastructure Investigation"
+    difficulty: medium
+    metric: score
+    threshold: 0.60
+    max_steps: 20
+    description: >
+      Investigate and resolve database or infrastructure issues. Requires querying
+      metrics, identifying root cause, coordinating with the appropriate team,
+      and applying the fix. 5 varied incident templates.
+
+  - id: hard
+    name: "Complex Infrastructure & Feature Flag Issues"
+    difficulty: hard
+    metric: score
+    threshold: 0.60
+    max_steps: 25
+    description: >
+      Resolve complex infrastructure issues involving CDN, load balancers, feature flags,
+      DNS, or TLS. Requires careful investigation, cross-team coordination, and
+      precise configuration changes. 5 varied incident templates.
+
+grading:
+  score_range: [0.0, 1.0]
+  score_type: float
+  endpoint: /grader
+
+inference:
+  script: inference.py
+  command: python inference.py
+
+deployment:
+  platform: huggingface-spaces
+  docker: true
+  port: 7860
