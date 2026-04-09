@@ -13,7 +13,7 @@ Each difficulty level has 5 different incident templates that are randomly selec
 
 import random
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 

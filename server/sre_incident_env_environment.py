@@ -27,26 +27,27 @@ from openenv.core.env_server.types import State
 
 try:
     from ..models import (
-        ActionType,
         GraderResult,
         SreIncidentAction,
         SreIncidentObservation,
         TaskConfig,
     )
-    from .grading import EpisodeGrader
-    from .scenario_generator import Incident, ScenarioGenerator
-    from .tasks import TASKS, get_all_tasks, get_task
 except ImportError:
     from models import (
-        ActionType,
         GraderResult,
         SreIncidentAction,
         SreIncidentObservation,
         TaskConfig,
     )
+
+try:
+    from .grading import EpisodeGrader
+    from .scenario_generator import Incident, ScenarioGenerator
+    from .tasks import get_all_tasks, get_task
+except ImportError:
     from grading import EpisodeGrader
     from scenario_generator import Incident, ScenarioGenerator
-    from tasks import TASKS, get_all_tasks, get_task
+    from tasks import get_all_tasks, get_task
 
 
 class SreIncidentEnvironment(Environment):
@@ -220,7 +221,7 @@ class SreIncidentEnvironment(Environment):
         elif action_type == "check_dashboard":
             if target.lower() == self._current_incident.dashboard_name.lower():
                 result = f"Dashboard '{target}' shows anomaly in {self._current_incident.affected_service}"
-                result += f"\nMetric spike detected matching root cause pattern"
+                result += "\nMetric spike detected matching root cause pattern"
                 step_reward += 0.10
             else:
                 result = f"Dashboard '{target}' shows normal metrics"
@@ -301,7 +302,7 @@ class SreIncidentEnvironment(Environment):
         elif action_type == "post_update":
             result = "Status update posted to incident channel:"
             result += f"\n  - Incident: {self._current_incident.title}"
-            result += f"\n  - Status: Investigating"
+            result += "\n  - Status: Investigating"
             result += f"\n  - Service: {self._current_incident.affected_service}"
 
         elif action_type == "resolve":
@@ -317,7 +318,7 @@ class SreIncidentEnvironment(Environment):
                 )
 
         elif action_type == "escalate":
-            result = f"Incident escalated to management"
+            result = "Incident escalated to management"
             self._episode_complete = True
 
         elif action_type == "wait":

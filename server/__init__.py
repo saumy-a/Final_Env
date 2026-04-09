@@ -8,7 +8,7 @@
 
 try:
     from .sre_incident_env_environment import SreIncidentEnvironment
-except ImportError:
+except (ImportError, TypeError):
     from sre_incident_env_environment import SreIncidentEnvironment
 
 __all__ = ["SreIncidentEnvironment"]

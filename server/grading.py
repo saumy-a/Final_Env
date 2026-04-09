@@ -18,13 +18,16 @@ Score breakdown:
 """
 
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 try:
-    from ..models import ActionType, GraderResult, SreIncidentAction
+    from ..models import GraderResult, SreIncidentAction
+except ImportError:
+    from models import GraderResult, SreIncidentAction
+
+try:
     from .scenario_generator import Incident
 except ImportError:
-    from models import ActionType, GraderResult, SreIncidentAction
     from scenario_generator import Incident
 
 
@@ -178,7 +181,7 @@ class EpisodeGrader:
             if "off" in target:
                 feedback["recognized"] = True
                 feedback["points"] = self.SCORE_REMEDIATION
-                feedback["message"] = f"Disabled feature flag"
+                feedback["message"] = "Disabled feature flag"
                 self._remediation_done = True
             elif target:
                 feedback["recognized"] = True

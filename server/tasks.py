@@ -15,7 +15,10 @@ Defines the task catalog with 3 difficulty levels:
 
 from typing import Dict, List
 
-from ..models import TaskConfig
+try:
+    from ..models import TaskConfig
+except ImportError:
+    from models import TaskConfig
 
 TASKS: Dict[str, TaskConfig] = {
     "easy": TaskConfig(

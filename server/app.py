@@ -44,24 +44,18 @@ except Exception as e:
     ) from e
 
 try:
-    from ..models import (
-        ActionType,
-        GradeRequest,
-        GraderResult,
-        SreIncidentAction,
-        SreIncidentObservation,
-    )
+    from ..models import SreIncidentAction, SreIncidentObservation
+except ImportError:
+    from models import SreIncidentAction, SreIncidentObservation
+
+try:
     from .sre_incident_env_environment import SreIncidentEnvironment
-    from .tasks import get_all_tasks, get_task
-except ModuleNotFoundError:
-    from models import (
-        ActionType,
-        GradeRequest,
-        GraderResult,
-        SreIncidentAction,
-        SreIncidentObservation,
-    )
+except ImportError:
     from sre_incident_env_environment import SreIncidentEnvironment
+
+try:
+    from .tasks import get_all_tasks, get_task
+except ImportError:
     from tasks import get_all_tasks, get_task
 
 
@@ -134,15 +128,19 @@ async def grade_episode(request: GraderRequest):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
 
-    from .grading import grade_episode as grade_actions
-    from .scenario_generator import ScenarioGenerator
+    try:
+        from .grading import grade_episode as grade_actions
+        from .scenario_generator import ScenarioGenerator
+    except ImportError:
+        from grading import grade_episode as grade_actions
+        from scenario_generator import ScenarioGenerator
 
     generator = ScenarioGenerator()
     incident = generator.generate(request.task_id)
 
     try:
         from ..models import ActionType, SreIncidentAction as Action
-    except ModuleNotFoundError:
+    except ImportError:
         from models import ActionType, SreIncidentAction as Action
 
     optimal_sequences = {

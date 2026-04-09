@@ -6,16 +6,16 @@
 
 """SRE Incident Response Environment Client."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 from openenv.core import EnvClient
 from openenv.core.client_types import StepResult
 from openenv.core.env_server.types import State
 
 try:
-    from .models import ActionType, SreIncidentAction, SreIncidentObservation
+    from .models import SreIncidentAction, SreIncidentObservation
 except ImportError:
-    from models import ActionType, SreIncidentAction, SreIncidentObservation
+    from models import SreIncidentAction, SreIncidentObservation
 
 
 class SreIncidentEnv(EnvClient[SreIncidentAction, SreIncidentObservation, State]):
