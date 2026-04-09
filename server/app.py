@@ -75,13 +75,15 @@ _base_app = create_app(
     max_concurrent_envs=10,
 )
 
+# Include base app routes first, then add our custom routes
 app = FastAPI(
     title="SRE Incident Response Environment",
     description="An OpenEnv-compliant environment for training RL agents on SRE incident response",
     version="1.0.0",
 )
 
-app.mount("", _base_app)
+# Mount base app at /web for web interface, keep / for API
+app.mount("/web", _base_app)
 
 
 class GraderRequest(BaseModel):

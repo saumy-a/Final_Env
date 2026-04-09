@@ -12,7 +12,10 @@ from openenv.core import EnvClient
 from openenv.core.client_types import StepResult
 from openenv.core.env_server.types import State
 
-from .models import ActionType, SreIncidentAction, SreIncidentObservation
+try:
+    from .models import ActionType, SreIncidentAction, SreIncidentObservation
+except ImportError:
+    from models import ActionType, SreIncidentAction, SreIncidentObservation
 
 
 class SreIncidentEnv(EnvClient[SreIncidentAction, SreIncidentObservation, State]):
