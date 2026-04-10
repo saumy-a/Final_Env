@@ -259,9 +259,6 @@ def main(host: str = "0.0.0.0", port: int = 7860):
     uvicorn.run(app, host=host, port=port)
 
 
-def run_main():
-    """Helper to call main()."""
-    pass
 
 
 if __name__ == "__main__":
