@@ -74,7 +74,7 @@ app = FastAPI(
 )
 
 # Mount base app at /web for web interface, keep / for API
-app.mount("/web", _base_app)
+app.mount("/", _base_app)
 
 
 class GraderRequest(BaseModel):
